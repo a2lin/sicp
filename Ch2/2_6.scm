@@ -1,0 +1,5 @@
+(define one (lambda (f) (lambda (x) (f x))))
+(define two (lambda (f) (lambda (x) (f (f x)))))
+(define (plus x y) (lambda (f) (lambda (x) ((two f) ((one f) x)))))
+(define (inc x) (+ x 1))
+(((plus one two) inc) 0) 
