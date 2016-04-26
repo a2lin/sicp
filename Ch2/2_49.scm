@@ -1,4 +1,4 @@
-5; graphics 
+; graphics 
 (define device (make-graphics-device (car (enumerate-graphics-types))))
 (define (draw-line pointA pointB)
   (graphics-draw-line device (car pointA) (cdr pointA) (car pointB) (cdr pointB)))
@@ -103,4 +103,4 @@
         (make-segment (make-vect 0.2 0.65) (make-vect 0 0.8))
         ))
 
-((segments->painter wave) base-frame)
+;((segments->painter wave) base-frame)
