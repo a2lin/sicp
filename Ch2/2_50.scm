@@ -19,17 +19,17 @@
                      (make-vect 1.0 1.0)))
 
 ; 180 degree rotation
-(define (flip-180 painter)
+(define (rotate180 painter)
   (transform-painter painter
                      (make-vect 1.0 1.0)
                      (make-vect 0.0 1.0)
                      (make-vect 1.0 0.0)))
 
 ; 270 degree rotation 
-(define (flip-270 painter)
+(define (rotate270 painter)
   (transform-painter painter
                      (make-vect 0.0 1.0)
                      (make-vect 0.0 0.0)
                      (make-vect 1.0 1.0)))
 
-;((flip-270 (segments->painter wave)) base-frame)
+;((rotate270 (segments->painter wave)) base-frame)
