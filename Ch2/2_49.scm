@@ -47,7 +47,7 @@
   (cons origin (cons edge1 edge2)))
 
 (define base-frame
-  (make-frame (make-vect 0 0) (make-vect 1 0) (make-vect 0 1)))
+  (make-frame (make-vect -1 -1) (make-vect 2 0) (make-vect 0 2)))
 
 ; segment painter
 (define (segments->painter segment-list)

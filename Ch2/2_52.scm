@@ -1,12 +1,23 @@
 (load "2_51.scm")
 
-(define (corner-split painter n)
+(define (corner-split-original painter n)
   (if (= n 0)
     painter
     (let ((up (up-split painter (- n 1)))
           (right (right-split painter (- n 1))))
       (let ((top-left (beside up up))
             (bottom-right (below right right))
+            (corner (corner-split painter (- n 1))))
+        (beside (below painter top-left)
+                (below bottom-right corner))))))
+
+(define (corner-split painter n)
+  (if (= n 0)
+    painter
+    (let ((up (up-split painter (- n 1)))
+          (right (right-split painter (- n 1))))
+      (let ((top-left up)
+            (bottom-right right)
             (corner (corner-split painter (- n 1))))
         (beside (below painter top-left)
                 (below bottom-right corner))))))
