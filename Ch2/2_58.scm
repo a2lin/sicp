@@ -2,9 +2,30 @@
 (define (same-variable? v1 v2)
   (and (variable? v1) (variable? v2) (eq? v1 v2)))
 (define (sum? x)
-  (and (pair? x) (eq? (cadr x) '+)))
-(define (addend s) (car s))
-(define (augend s) (caddr s))
+  (if (pair? x)
+    (if (eq? (car x) '+)
+      #t
+      (sum? (cdr x)))
+    #f))
+
+(define (addend s) (car (break-sum s)))
+(define (augend s) 
+  (if (null? (cdr (cadr (break-sum s))))
+    (caadr (break-sum s))
+    (cadr (break-sum s))))
+
+(define (append-fix a b)
+  (cond ((and (pair? a) (pair? b)) (append a b))
+        ((pair? a) (append a (list b)))
+        ((pair? b) (append (list a) b))
+        (else (append (list a) (list b)))))
+    
+(define (break-sum s)
+  (if (eq? (cadr s) '+)
+    (list (car s) (cddr s))
+    (let ((sum-rest (break-sum (cddr s))))
+        (list (append-fix (append-fix (car s) (cadr s)) (car sum-rest)) (cadr sum-rest)))))
+
 (define (product? x)
   (and (pair? x) (eq? (cadr x) '*)))
 (define (multiplier p) (car p))
@@ -22,7 +43,6 @@
         ((=number? m2 1) m1)
         ((and (number? m1) (number? m2)) (* m1 m2))
         (else (list '* m1 m2))))
-
 (define (deriv exp var)
   (cond ((number? exp) 0)
         ((variable? exp)
@@ -38,4 +58,6 @@
                          (multiplicand exp))))
         (else
           (error "unknown expression type -- DERIV" exp))))
+
+(deriv '(x + 3 * (x + y + 2)) 'x)
 (deriv '(x + (3 * (x + (y + 2)))) 'x)
