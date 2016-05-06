@@ -23,4 +23,4 @@
 (partial-tree (list 1 3 5 7 9 11) 6)
 (list 5 (list 1 '() (list 3 '() '()) ) (list 9 (list 7 '() '()) (list 11 '() '())))  ; partial-tree
 
-
+; o(n)
