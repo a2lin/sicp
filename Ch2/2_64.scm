@@ -1,4 +1,3 @@
-(load "2_63.scm")
 (define (list->tree elements)
     (car (partial-tree elements (length elements))))
 (define (partial-tree elts n)
@@ -20,7 +19,7 @@
 ; this recursive building trees. split list in half. recurse on left half. recurse on left half
 ; after recursing l + r -> build l, r, c and return up.
 
-(partial-tree (list 1 3 5 7 9 11) 6)
-(list 5 (list 1 '() (list 3 '() '()) ) (list 9 (list 7 '() '()) (list 11 '() '())))  ; partial-tree
+;(partial-tree (list 1 3 5 7 9 11) 6)
+;(list 5 (list 1 '() (list 3 '() '()) ) (list 9 (list 7 '() '()) (list 11 '() '())))  ; partial-tree
 
 ; o(n)

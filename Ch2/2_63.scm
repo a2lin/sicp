@@ -21,4 +21,5 @@
   (copy-to-list tree '()))
 
 ; I think they do produce the same result, append > cons in terms of speed though.
-(tree->list-2 (make-tree 7 (make-tree 3 (make-tree 1 '() '()) (make-tree 5 '() '())) (make-tree 9 '() (make-tree 11 '() '()))))
+(define (token-tree) (make-tree 7 (make-tree 3 (make-tree 1 '() '()) (make-tree 5 '() '())) (make-tree 9 '() (make-tree 11 '() '()))))
+(define (token-tree-2) (make-tree 7 (make-tree 3 (make-tree 1 '() '()) (make-tree 5 (make-tree 6 '() '()) '())) (make-tree 9 '() (make-tree 11 '() '()))))
