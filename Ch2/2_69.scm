@@ -16,4 +16,4 @@
       (let ((tree (make-code-tree left right)))
         (successive-merge (insert (cddr pairs) tree))))))
 
-(successive-merge (make-leaf-set (list (list 'A 4) (list 'B 2) (list 'C 1) (list 'D 1))))
+;(successive-merge (make-leaf-set (list (list 'A 4) (list 'B 2) (list 'C 1) (list 'D 1))))
