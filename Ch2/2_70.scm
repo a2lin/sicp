@@ -1,0 +1,8 @@
+(load "2_69.scm")
+(load "2_68.scm")
+(define encoding-tree (generate-huffman-tree (list (list 'a 2) (list 'boom 1) (list 'get 2) (list 'job 2) (list 'na 16) (list 'sha 3) (list 'yip 9) (list 'wah 1))))
+(define get-a-job (list 'get 'a 'job))
+(define sha-na-na (list 'sha 'na 'na 'na 'na 'na 'na 'na 'na))
+(define wah-yip (list 'wah 'yip 'yip 'yip 'yip 'yip 'yip 'yip 'yip 'yip))
+(define sha-boom (list 'sha 'boom))
+;(decode (append (encode get-a-job encoding-tree) (encode sha-na-na encoding-tree) (encode get-a-job encoding-tree) (encode sha-na-na encoding-tree) (encode wah-yip encoding-tree) (encode sha-boom encoding-tree)) encoding-tree)
