@@ -5,7 +5,7 @@
 
 (define (successive-merge pairs)
   (if (null? (cdr pairs))
-    pairs
+    (car pairs)
     (let ((left (car pairs))
           (right (cadr pairs)))
       (let ((tree (make-code-tree left right)))
