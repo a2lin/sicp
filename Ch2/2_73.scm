@@ -4,6 +4,12 @@
 
 ; b.
 
+(define (sign exp)
+  (car exp))
+
+(define (rest exp)
+  (cdr exp))
+
 (define (install-sum-package)
     (define (make e1 e2)
       (cond ((and (number? e1) (= e1 0)) e2)
@@ -48,28 +54,27 @@
   (put 'rhs '** rhs))
 
 (define (deriv-sum exp var)
-  ((get 'make '+) (deriv (('get 'lhs '+) exp) var)
-        (deriv (rhs exp) var)))
+  ((get 'make '+) (deriv (('get 'lhs (sign exp)) (rest exp)) var)
+        (deriv (('get 'rhs (sign exp)) (rest exp)) var)))
 
 (define (deriv-mul exp var)
   ((get 'make '+) (('get 'make '*) 
-                     (('get 'lhs '*) exp)
-                     (deriv (get 'rhs '*) exp))
+                     (('get 'lhs (sign exp)) (rest exp))
+                     (deriv (get 'rhs (sign exp)) (rest exp)))
                     (('get 'make '*)
-                     (('get 'rhs '*) exp)
-                     (deriv (get 'lhs '*) exp))))
+                     (('get 'rhs (sign exp)) (rest exp))
+                     (deriv (get 'lhs (sign exp)) (rest exp)))))
 
 (define (deriv-exp exp var)
-  ((get 'make '*) ((get 'lhs '**) exp)
-                ((get 'make '**) ((get 'rhs '**) exp)
-                                     (if (number? ((get 'lhs '**) exp))
-                                       (- ((get 'lhs '**) exp) 1)
-                                       (list '- ((get 'lhs '**) exp) 1)
+  ((get 'make '*) ((get 'lhs (sign exp)) (rest exp))
+                ((get 'make '**) ((get 'rhs (sign exp)) (rest exp))
+                                     (if (number? ((get 'lhs (sign exp)) (rest exp)))
+                                       (- ((get 'lhs (sign exp)) (rest exp)) 1)
+                                       (list '- ((get 'lhs (sign exp)) (rest exp)) 1)
                                        )
                                      )
                 )
   )
-
 
 (put 'deriv '+ deriv-sum)
 (put 'deriv '* deriv-mul)
