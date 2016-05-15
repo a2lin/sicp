@@ -14,9 +14,9 @@
       (car sum))
     (define (rhs sum)
       (cadr sum))
-    (put 'make 'sum make)
-    (put 'lhs 'mul lhs)
-    (put 'rhs 'mul rhs))
+    (put 'make '+ make)
+    (put 'lhs '* lhs)
+    (put 'rhs '* rhs))
 
 (define (install-mul-package)
   (define (make e1 e2)
