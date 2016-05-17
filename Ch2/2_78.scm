@@ -1,0 +1,14 @@
+(define (contents datum)
+  (cond ((number? datum) (datum))
+        ((pair? datum) (cdr datum))
+        (else (error "Bad tagged datum -- CONTENTS" datum))))
+
+(define (attach-tag type-tag contents)
+  (cond ((number? contents) contents)
+        (else (cons type-tag contents))))
+
+(define (type-tag datum)
+  (cond ((number? datum) (datum))
+        ((pair? datum) (car datum))
+        (else (error "Bad tagged datup -- TYPE-TAG" datum))))
+
