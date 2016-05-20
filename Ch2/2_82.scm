@@ -28,4 +28,9 @@
 (define (apply-generic op . args)
   (let ((type-tags (map type-tag args)))
     (try-coercion type-tags args op)))
-          
+
+; evidently this method of coercion does not allow for mixed-argument operations,
+; and therefore if the operation is mixed-argument we are going to have a problem
+; similarly there are cases where two arguments can go through a 'double coercion'
+; as in there is an operation for 'type 3' but we can coerce to at most 'type 2'
+; (e.g. hierarchy is type3->type2->type1 and we have one type1 and one type2 object)
