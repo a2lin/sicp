@@ -4,4 +4,7 @@
 (define (=polyzero? val)
   (if (eq? (type-tag val) 'polynomial)
     (let ((polycoeff (coeff (contents val))))
-      (all (map =polyzero? coeff))
+      (all (map =polyzero? coeff)))
+    (=zero? val)))
+
+(put =zero? 'polynomial =polyzero?)
