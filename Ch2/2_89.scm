@@ -1,0 +1,32 @@
+(define (sublist term keep)
+  (if (= 0 keep)
+    '()
+    (cons (car term) (sublist (cdr term) (- keep 1)))))
+    
+(define (adjoin-term term rest)
+    (let ((term-order (order term))
+          (term-rest (order rest)))
+      (append (sublist term (- term-order term-rest)) rest)))
+
+(define (first-term terms) (car terms))
+(define (rest-terms terms) (cdr terms))
+(define (empty-terms? terms) (null? terms))
+(define (the-empty-termlist) '())
+(define (make-term order coeff)
+  (if (= order 0)
+    (list coeff)
+    (cons coeff (make-zeros (- order 1)))))
+(define (make-zeros order)
+  (if (= order 0)
+    (list 0)
+    (cons 0 (make-zeros (- order 1)))))
+
+(define (order term)
+  (fold-left (lambda (sum element) (+ sum 1)) 0 term))
+
+(define (coeff term)
+  (if (null? term)
+    0
+    (if (= 0 (car term))
+      (coeff (cdr term))
+      (car term))))
