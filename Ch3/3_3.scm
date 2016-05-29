@@ -1,4 +1,4 @@
-(define (make-account balance password password)
+(define (make-account balance password)
   (define (withdraw amount)
     (if (>= balance amount)
       (begin (set! balance (- balance amount))
@@ -7,12 +7,15 @@
   (define (deposit amount)
     (set! balance (+ balance amount))
     balance)
-  (define (dispatch m user-password)
-    (if (eq? password user-password) 
+  (define (dispatch user-password m)
+    (if (eq? password user-password)
       (cond ((eq? m 'withdraw) withdraw)
             ((eq? m 'deposit) deposit)
             (else (error "Unknown request -- MAKE ACCOUNT"
                          m)))
-      "INCORRECT PASSWORD"))
+      (lambda (x) "INCORRECT PASSWORD")))
   dispatch)
-    
+
+(define acc (make-account 100 'secret-password))
+((acc 'secret-password 'withdraw) 40)
+((acc 'some-other-password 'deposit) 50)
