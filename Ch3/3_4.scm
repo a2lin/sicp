@@ -19,13 +19,14 @@
                        (else (error "Unknown request -- MAKE ACCOUNT"
                                     m))))
           (if (= 7 incorrect)
-            (lambda (x) call-the-cops)
+            (begin (call-the-cops) (lambda (x) "Called the cops"))
             (begin (set! incorrect (+ 1 incorrect))
                    (lambda (x) "INCORRECT PASSWORD")))))
       dispatch))
 
 (define acc (make-account 100 'secret-password))
 ((acc 'secret-password 'withdraw) 40)
+((acc 'some-other-password 'deposit) 50)
 ((acc 'some-other-password 'deposit) 50)
 ((acc 'some-other-password 'deposit) 50)
 ((acc 'some-other-password 'deposit) 50)
