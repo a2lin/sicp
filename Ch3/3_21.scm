@@ -5,3 +5,9 @@
 
 ; therefore 'a will appear twice in the print, once as the list and once as the tail element
 ; if the queue is printed normally.
+
+; rear ptr is not changed in queue representation on deletes,
+; so that's why 'b is not deleted;
+
+; it is impossible to get to this rear ptr though, and since queue is empty once an element
+; is inserted the rear ptr will be set correctly again.
