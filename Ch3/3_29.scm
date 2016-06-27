@@ -7,3 +7,4 @@
     (and-gate ainv binv andout)
     (inverter andout output)
     'ok))
+; the delay for this is 2NEG + 1AND becuse 2 of the NEGs are happening in parallel.
