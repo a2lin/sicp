@@ -1,0 +1,11 @@
+(define (squarer a b)
+  (define (process-new-value)
+    (if (has-value? b)
+        (if (< (get-value b) 0)
+            (error "square less than 0 -- SQUARER" (get-value b))
+            <alternative1>)
+        <alternative2>))
+  (define (process-forget-value) <body1>)
+  (define (me request) <body2>)
+  <rest of definition>
+  me)
