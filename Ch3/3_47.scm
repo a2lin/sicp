@@ -13,10 +13,25 @@
 
 (define (make-semaphore n)
   (let ((master-number n)
+        (master-mutex-list (list))
         (master-mutex make-mutex))
     (define (the-semaphore m)
       (cond ((eq? m 'acquire)
              (master-mutex 'acquire)
-             (
+             (- n 1)
+             (if (< 0 n)
+               (append (master-mutex-list) (list make-mutex)))
+             (master-mutex 'release))
+            ((eq? m 'release)
+             (master-mutex 'acquire)
+             (+ n 1)
+             (if (and (> 0 n) (not (null? master-mutex-list)))
+               (let (free-mutex (car master-mutex-list))
+                 (set! master-mutex-list (cdr master-mutex-list))
+                 (free-mutex 'release)
+                 (master-mutex 'release))))))))
 
-(define (test-and-set
+               
+
+
+(define (test-and-sett
