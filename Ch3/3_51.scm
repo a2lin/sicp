@@ -5,7 +5,6 @@
 
 (define (stream-car stream) (car stream))
 (define (stream-cdr stream) (force (cdr stream)))
-(define (force delayed-object) (delayed-object))
 (define the-empty-stream '())
 (define stream-null? null?)
 (define (stream-map proc s)
@@ -34,8 +33,9 @@
   (stream-map show
               (stream-enumerate-interval 0 10)))
 
-(stream-ref x 5) ;5
-(stream-ref x 7) ;7
+;(stream-ref x 5) ;5
+;(stream-ref x 7) ;7
+
 ;1
 ;2
 ;3
