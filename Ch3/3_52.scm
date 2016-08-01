@@ -1,4 +1,4 @@
-(load "3_51.scm")
+(load "stream_lib.scm")
 (define (stream-for-each proc s) 
   (if (stream-null? s)
     'done

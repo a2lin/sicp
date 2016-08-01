@@ -1,11 +1,9 @@
+(load "stream_lib.scm")
 (define (stream-ref s n)
   (if (= n 0)
     (stream-car s)
     (stream-ref (stream-cdr s) (- n 1))))
 
-(define (stream-car stream) (car stream))
-(define (stream-cdr stream) (force (cdr stream)))
-(define the-empty-stream '())
 (define stream-null? null?)
 (define (stream-map proc s)
   (if (stream-null? s)
@@ -33,7 +31,7 @@
   (stream-map show
               (stream-enumerate-interval 0 10)))
 
-;(stream-ref x 5) ;5
+(stream-ref x 5) ;5
 ;(stream-ref x 7) ;7
 
 ;1

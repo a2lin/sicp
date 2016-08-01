@@ -1,11 +1,35 @@
-(define (cons-stream a b)
-  (cons a (delay b)))
+;cribbed from stackoverflow http://stackoverflow.com/questions/14640833/how-is-the-sicp-cons-stream-implemented
+(define (memo-func function)
+  (let ((already-run? false)
+        (result false))
+    (lambda ()
+      (if (not already-run?)
+          (begin (set! result (function))
+                 (set! already-run? true)
+                 result)
+          result))))
+
+
+(define-syntax delay
+  (syntax-rules ()
+    ((delay exp)
+     (memo-func (lambda () exp)))))
+
+(define (force function)
+  (function))
+
+(define the-empty-stream '())
+(define (stream-null? stream) (null? stream))
 (define (stream-car stream) (car stream))
 (define (stream-cdr stream) (force (cdr stream)))
-(define the-empty-stream '())
-(define stream-null? null?)
 
-(define (stream-map . argstreams)
+(define-syntax cons-stream
+  (syntax-rules ()
+    ((cons-stream a b)
+     (cons a (memo-func (lambda () b))))))
+;end cribbing
+
+(define (stream-map proc . argstreams)
     (if (stream-null? (car argstreams))
       the-empty-stream
       (cons-stream
@@ -40,6 +64,9 @@
            (stream-for-each proc (stream-cdr s)))))
 
 (define (display-stream s) (stream-for-each display-line s))
-(define (ones) (cons-stream 1 ones))
-(define (integers) (cons-stream 1 (add-streams (ones) integers)))
+(define (ones) (cons-stream 1 (ones)))
+(define (integers) (cons-stream 1 (add-streams (ones) (integers))))
 (define (add-streams s1 s2) (stream-map + s1 s2))
+(define (take stream count)
+    (cond ((= count 0) '())
+          (else (show (stream-car stream)) (take (stream-cdr stream) (- count 1)))))
