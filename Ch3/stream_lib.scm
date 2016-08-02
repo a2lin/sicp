@@ -70,3 +70,7 @@
 (define (take stream count)
     (cond ((= count 0) '())
           (else (show (stream-car stream)) (take (stream-cdr stream) (- count 1)))))
+
+(define (scale-stream stream factor) 
+  (stream-map (lambda (x) (* x factor))
+              stream))
