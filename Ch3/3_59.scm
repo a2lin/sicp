@@ -9,5 +9,5 @@
   (cons-stream 1 (integrate-series (exp-series))))
 
 ;c.)
-(define (cosine-series) (cons-stream 1 (integrate-series (stream-map - (sine-series)))))
-(define (sine-series) (cons-stream 0 (integrate-series (cosine-series))))
+(define (cosine-series) (cons-stream 1.0 (scale-stream (integrate-series (sine-series)) -1)))
+(define (sine-series) (cons-stream 0.0 (integrate-series (cosine-series))))

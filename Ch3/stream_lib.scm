@@ -68,6 +68,7 @@
 (define (integers) (cons-stream 1 (add-streams (ones) (integers))))
 (define (add-streams s1 s2) (stream-map + s1 s2))
 (define (take stream count)
+    (newline)
     (cond ((= count 0) '())
           (else (show (stream-car stream)) (take (stream-cdr stream) (- count 1)))))
 
