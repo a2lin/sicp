@@ -75,3 +75,9 @@
 (define (scale-stream stream factor) 
   (stream-map (lambda (x) (* x factor))
               stream))
+
+(define (interleave s1 s2)
+  (if (stream-null? s1)
+    s2
+    (cons-stream (stream-car s1)
+                 (interleave s2 (stream-cdr s1)))))
