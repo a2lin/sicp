@@ -54,11 +54,31 @@
   (cons-stream
     (list (stream-car s) (stream-car t))
     (merge-weighted weight
-      (merge-weighted weight
         (stream-map (lambda (x) (list (stream-car s) x))
                     (stream-cdr t))
-        (stream-map (lambda (x) (list x (stream-car s)))
-                    (stream-cdr t)))
-      (pairs (stream-cdr s) (stream-cdr t)))))
+        (weighted-pairs (stream-cdr s) (stream-cdr t) weight))))
 
-(take (weighted-pairs (integers) (integers) (lambda (x) (+ (car x) (cadr x)))) 10)
+
+(define (stream-filter pred stream)
+  (cond ((stream-null? stream) '())
+        ((pred (stream-car stream))
+         (cons-stream (stream-car stream)
+                      (stream-filter
+                        pred
+                        (stream-cdr stream))))
+        (else (stream-filter pred (stream-cdr stream)))))
+
+(define (problem-pairs s t weight f)
+  (stream-filter f
+    (cons-stream
+        (list (stream-car s) (stream-car t))
+        (merge-weighted weight
+                        (stream-map (lambda (x) (list (stream-car s) x))
+                                    (stream-cdr t))
+                        (problem-pairs (stream-cdr s) (stream-cdr t) weight f)))))
+
+(take (problem-pairs (integers) (integers) 
+        (lambda (x) (+ (* 2 (car x)) (* 3 (cadr x)) (* 5 (car x) (cadr x)))) 
+        (lambda (x) (not (or (remainder (car x) 3) (remainder (car x) 5) (remainder (car x) 2)
+                             (remainder (cadr x) 3) (remainder (cadr x) 5) (remainder (cadr x) 2))))) 10)
+;(take (weighted-pairs (integers) (integers) (lambda (x) (+ (car x) (cadr x)))) 10)
