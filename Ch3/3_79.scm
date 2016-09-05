@@ -14,4 +14,5 @@
   (define y (integral y0 dy))
   y)
 
+; solve-2nd generalized -- for any diffeq
 (define (solve-2nd-generalized  
