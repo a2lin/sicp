@@ -22,14 +22,14 @@
 (define (RLC R L C Vc0 iL0 dt)
   (define iL (integral 
                (delay (add-streams 
-                        (scale-stream (Vc) (/ 1 L)) 
-                        (scale-stream (iL) (/ (* -1 R) L)))
+                        (scale-stream Vc (/ 1 L)) 
+                        (scale-stream iL (/ (* -1 R) L)))
                       )
                iL0 dt)
     )
-  (define Vc (integral (scale-stream iL (/ -1 C)) Vc0 dt))
+  (define Vc (integral (delay (scale-stream iL (/ -1 C))) Vc0 dt))
   (define state (stream-map cons iL Vc))
   state
   )
 
-(take (RLC 1000 1 0.001 1 1 0.001) 2)
+(take (RLC 1000 1 0.001 100 1000 0.001) 7)
