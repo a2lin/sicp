@@ -10,11 +10,10 @@
     (stream-map rand-update random-numbers)))
 
 
-(define (parse-command-stream command-stream)
-  (stream-map 
-    (lambda (x) 
-      (cond ((eq? (car x) "generate") ('()))
-            (list (cdr x)))) command-stream))
+(define (parse-command command)
+  (cond ((equal? (car command) "generate") (list))
+        (else (list (cdr command)))))
+
 
 (define z (cons-stream 
             (cons "generate" '())
@@ -24,5 +23,22 @@
                 (cons "generate" '())
                 the-empty-stream))))
 
-
-(take (parse-command-stream z) 3)
+(define (rand-cmd cmd-stream init)
+  (define next
+    (let ((test (parse-command (stream-car cmd-stream))))
+        (cond ((equal? test the-empty-stream)
+               (cons-stream
+                 init
+                 (rand-cmd (stream-cdr cmd-stream) (rand-update init))))
+              (else
+                (cons-stream
+                  (cdr test) 
+                  (rand-cmd (stream-cdr cmd-stream) (rand-update (cdr test)))
+                  )
+                )
+              )
+        )
+    )
+  next
+  )
+(take (rand-cmd z 3) 3)
