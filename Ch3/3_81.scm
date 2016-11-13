@@ -9,36 +9,44 @@
     random-init
     (stream-map rand-update random-numbers)))
 
-
 (define (parse-command command)
   (cond ((equal? (car command) "generate") (list))
         (else (list (cdr command)))))
 
-
 (define z (cons-stream 
             (cons "generate" '())
             (cons-stream
-              (cons "reset" 5)
+              (cons "generate" '())
               (cons-stream
-                (cons "generate" '())
-                the-empty-stream))))
+                (cons "reset" 5)
+                (cons-stream
+                  (cons "generate" '())
+                  (cons-stream
+                    (cons "generate" '())
+                    the-empty-stream))))))
 
 (define (rand-cmd cmd-stream init)
   (define next
-    (let ((test (parse-command (stream-car cmd-stream))))
+    (if (equal? cmd-stream the-empty-stream)
+      the-empty-stream 
+      (let ((test (parse-command (stream-car cmd-stream))))
         (cond ((equal? test the-empty-stream)
                (cons-stream
                  init
                  (rand-cmd (stream-cdr cmd-stream) (rand-update init))))
               (else
                 (cons-stream
-                  (cdr test) 
-                  (rand-cmd (stream-cdr cmd-stream) (rand-update (cdr test)))
+                  (car test)
+                  (rand-cmd (stream-cdr cmd-stream) (rand-update (car test)))
                   )
                 )
               )
         )
+      )
     )
   next
   )
-(take (rand-cmd z 3) 3)
+(rand-update 5)
+(rand-update (rand-update 5))
+(rand-update 3)
+(take (rand-cmd z 3) 5)
