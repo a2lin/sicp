@@ -81,3 +81,9 @@
     s2
     (cons-stream (stream-car s1)
                  (interleave s2 (stream-cdr s1)))))
+
+(define (map-successive-pairs f s)
+  (cons-stream
+    (f (stream-car s) (stream-car (stream-cdr s)))
+    (map-successive-pairs f (stream-cdr (stream-cdr s)))))
+
