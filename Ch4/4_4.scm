@@ -51,6 +51,6 @@
       (let ((result (eval (first-exp exprs))))
         (if (last-exp? exprs)
           result ; if we haven't succeeded yet, the last expr's result is the answer
-          (process-or (rest-exprs exprs) result)))))
+          (process-or (rest-exps exprs) result)))))
   (process-or (cdr exp) false)
   )
