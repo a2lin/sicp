@@ -1,3 +1,6 @@
+(load "evaluator.scm")
+(define true #t)
+(define false #f)
 (define (eval exp env)
   (cond ((self-evaluating? exp) exp)
         ((variable? exp) (lookup-variable-value exp env))
@@ -19,8 +22,35 @@
         (else
           (error "Unknown expression type: EVAL" exp))))
 
-(define (eval-and exp env)
+; we expect 'and' to be a tagged list that looks like
+; ('and <expr1> <expr2> <expr3> '())
+(define (and? exp)
+  (tagged-list? exp 'and))
+
+(define (eval-and exp env) 
+  (define (process-and exprs result)
+    (if (eq? false result) ;and requires all clauses to be true
+      false
+      (let ((result (eval (first-exp exprs))))
+        (if (last-exp? exprs)
+          result ;if we haven't succeeded yet, the last expr's result is the answer
+          (process-and (rest-exps exprs) result)))))
+  (process-and (cdr exp) true)
   )
 
-(define (eval-or exp env)
+; we expect 'or' to be a tagged list that looks like
+; ('or <expr1> <expr2> <expr3> '())
+(define (or? exp)
+  (tagged-list? exp 'or))
+
+; we expect short-circuit behavior here.
+(define (eval-or exp env) 
+  (define (process-or exprs result)
+    (if (eq? true result) ; or requires any clause to be true
+      true
+      (let ((result (eval (first-exp exprs))))
+        (if (last-exp? exprs)
+          result ; if we haven't succeeded yet, the last expr's result is the answer
+          (process-or (rest-exprs exprs) result)))))
+  (process-or (cdr exp) false)
   )
