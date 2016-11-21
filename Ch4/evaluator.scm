@@ -10,6 +10,8 @@
                                        env))
         ((begin? exp)
          (eval-sequence (begin-actions exp) env))
+        ((and? exp) (eval-and exp env))
+        ((or? exp) (eval-or exp env))
         ((cond? exp) (eval (cond->if exp) env))
         ((application? exp)
          (apply (eval (operator exp) env)
@@ -148,3 +150,31 @@
         (make-if (cond-predicate first)
                  (sequence->exp (cond-actions first))
                  (expand-clauses rest))))))
+
+(define (and? exp)
+  (tagged-list? exp 'and))
+
+(define (eval-and exp env)
+  (define (process-and exprs result)
+    (if (eq? false result)
+      false
+      (let ((result (eval (first-exp exprs))))
+        (if (last-exp? exprs)
+          result
+          (process-and (rest-exps exprs) result)))))
+  (process-and (cdr exp) true)
+  )
+
+(define (or? exp)
+  (tagged-list? exp 'or))
+
+(define (eval-or exp env)
+  (define (process-or exprs result)
+    (if (eq? true result)
+      true
+      (let ((result (eval (first-exp exprs))))
+        (if (last-exp? exprs)
+          result
+          (process-or (rest-exps exprs) result)))))
+    (process-or (cdr exp) false)
+    )
