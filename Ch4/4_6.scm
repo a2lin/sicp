@@ -12,3 +12,6 @@
   (let ((paired-list (let-paired-lists (let-parameters exp))))
     (let ((let-params (car paired-list)) (let-exps (cdr paired-list)))
       (make-begin (make-lambda (let-params) (let-body exp)) (let-exps)))))
+
+(define (make-let parameters body)
+  (cons 'let (cons parameters body)))

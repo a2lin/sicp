@@ -1,2 +1,10 @@
+(define (let*? exp) (tagged-list? exp 'let*))
+(define (let*-statements exp) (cadr exp))
+(define (let*-body exp) (cddr exp))
 (define (let*->nested-lets exp)
-
+    (let ((body (let*-body exp)))
+      (define (let*-internal para)
+        (if (null? (cdr para))
+          (make-let para body)
+          (make-let (car para) (let*-internal para))))
+      (let*-internal (let*-statements exp))))
