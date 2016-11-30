@@ -195,7 +195,7 @@
 (define the-empty-environment '())
 
 (define (make-frame variables values)
-  (cond variables values))
+  (cons variables values))
 
 (define (frame-variables frame) (car frame))
 (define (frame-values frame) (cdr frame))
