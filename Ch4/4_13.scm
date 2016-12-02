@@ -2,8 +2,8 @@
   (let ((frame (first-frame env)))
     (define (scan vars vals)
       (cond ((eq? (car vars) var)
-             (begin 
-               (set-car! frame (cdr vars)) 
+             (begin
+               (set-car! frame (cdr vars))
                (set-cdr! frame (cdr vals))))
             ((eq? (cadr vars) var)
              (begin
