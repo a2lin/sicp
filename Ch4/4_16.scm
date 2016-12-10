@@ -29,3 +29,27 @@
         (scan (frame-variables frame)
               (frame-values frame)))))
   (env-loop env))
+
+;b)
+; pass-through
+(define (make-assignment variable value)
+  (let ((assign-pair (cons variable value)))
+    (cons 'set assign-pair)))
+
+(define (scan-out-defines)
+ (let ((let-list ()) (new-body ()))
+   (define (internal-scan body)
+     (if (null? body)
+       (make-let let-list new-body)
+       (if (definition? (car body))
+         (begin
+           (cons (cons (definition-variable (car body)) '*unassigned*) let-list)
+           (cons (make-assignment (definition-variable (car body)) (definition-value (car body))) new-body)
+           (internal-scan (cdr body)))
+         (begin
+           (cons (cdr body) new-body) 
+           (internal-scan (cdr body))))
+       )
+     )
+   )
+ )
