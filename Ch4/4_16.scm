@@ -55,6 +55,5 @@
  )
 
 ;c)
-;most likely putting it in procedure-body would be better. This makes 'make-procedure' supremely unconcerned with
-; the actual implementation of how the 'procedure-body' is rewritten, but simply an append function.
-; the abstraction of 'procedure-body' is then rewritten or however mangled in the subdir.
+; This needs to be in make-procedure for performance, as (procedure-body) is called and we don't want to constantly rewrite.
+; Alternatively with stateful program we can cache the value.
