@@ -53,3 +53,8 @@
      )
    )
  )
+
+;c)
+;most likely putting it in procedure-body would be better. This makes 'make-procedure' supremely unconcerned with
+; the actual implementation of how the 'procedure-body' is rewritten, but simply an append function.
+; the abstraction of 'procedure-body' is then rewritten or however mangled in the subdir.
