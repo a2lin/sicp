@@ -5,6 +5,5 @@
 
 ; it seems natural that in a procedural language ben's point should hold
 
-; eva's point that the definitions should occur simultaneously as 
-; technically a, b being simultaneous is fine; we just
-; need to rewrite a and b definitions to the old 'let/lambda' model
+; in _scheme_ though, due to mutual recursion alyssa is probably right. As noted
+; in the text, it is most definitely easier to emit a simultaneous definition error...
