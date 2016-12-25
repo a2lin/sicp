@@ -10,3 +10,22 @@
      (odd? (lambda (n)
              (if (= n 0) false (even? (- n 1))))))
     <>))
+
+(define (letrec? exp) (tagged-list? exp 'letrec))
+(define (letrec-defs exp) (cadr exp))
+(define (letrec-body exp) (caddr exp))
+(define (transform-letrec exp)
+  (define (make-define-list letrec-defines)
+    (let (var (caar letrec-defines)) (def (cdar letrec-defines))
+      (let (rest-list (make-define-list (cdr letrec-defines)))
+        (cons (cons var (car rest-list)) (cons def (cdr rest-list))))))
+  (define (make-define-sets var-list expr-list)
+    (cons (list 'set! (car var-list) (car expr-list)) (make-define-sets (cdr var-list) (cdr expr-list))))
+  (define (make-undef-set var-list)
+    (cons (cons (car var-list) '*undefined*) (cdr var-list)))
+  (let ((defs (make-define-list (letrec-defs exp))))
+    (let ((defset (make-define-sets (car defs)))
+          (undefs (make-undef-set (car defs))))
+      (cons (make-lambda undefs defset) (letrec-body (exp))))))
+
+
